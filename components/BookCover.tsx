@@ -1,34 +1,51 @@
 import React from "react";
-
-type BookCoverVariant = "extraSmall" | "small" | "medium" | "regular" | "wide";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import BookCoverSvg from "@/components/BookCoverSvg";
+type BookCoverVariant = "small" | "default" | "wide";
 
 const variantStyles: Record<BookCoverVariant, string> = {
-  extraSmall: "book-cover_extra_small",
+  // extraSmall: "book-cover_extra_small",
   small: "book-cover_extra_small",
-  medium: "book-cover_extra_small",
-  regular: "book-cover_extra_small",
+  // medium: "book-cover_extra_small",
+  default: "book-cover",
   wide: "book-cover_wide",
 };
 
 interface Props {
   className?: string;
-  variant: BookCoverVariant;
-  coverColor: string;
-  coverUrl: string;
+  variant?: BookCoverVariant;
+  coverColor?: string;
+  coverImage?: string;
 }
 const BookCover = ({
   className,
-  variant = "regular",
+  variant = "default",
   coverColor = "#012B48",
-  coverUrl = "https://placehold.co/400x600.png",
+  coverImage = "https://placehold.co/400x600.png",
 }: Props) => {
-  return <div className={
-    cn('relative transition-all duration-300',
+  return (
+    <div
+      className={cn(
+        "relative transition-all duration-300",
         variantStyles[variant],
-    )
-  }">
-
-  </div>;
+        className,
+      )}
+    >
+      <BookCoverSvg coverColor={coverColor} />
+      <div
+        className="absolute z-10"
+        style={{ left: "12%", width: "87.5%", height: "88%" }}
+      >
+        <Image
+          src={coverImage}
+          alt="Book cover"
+          fill
+          className="rounde-sm object-fill"
+        />
+      </div>
+    </div>
+  );
 };
 
 export default BookCover;
